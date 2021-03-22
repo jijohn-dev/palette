@@ -5,18 +5,28 @@ import { FaTimes, FaPen } from 'react-icons/fa'
 import { useState } from 'react'
 
 import { editPalette } from '../firebase/firebase'
-import AddPalette from './AddPalette'
+import { ChromePicker } from 'react-color'
 
 const Palette = ({ palette, onDelete }) => {
 	const [showHex, setShowHex] = useState(false) 
 	const [editMode, setEditMode] = useState(false)
 	const [colors, setColors] = useState(palette.colors)
+	const [currentColor, setCurrentColor] = useState('')	
 
-	function toggleEdit() {
+	const toggleEdit = () => {
 		setEditMode(!editMode)
 	}
 
-	function remove(color) {
+	const handleChange = (color) => {	
+		document.body.style = `background: ${currentColor.hex}`		
+		setCurrentColor(color)
+	}
+
+	const addColor = () => {		
+		setColors([...colors, currentColor.hex])		
+	}
+
+	const remove = (color) => {
 		if (editMode) {
 			console.log('removing')
 			console.log(colors)
@@ -24,7 +34,8 @@ const Palette = ({ palette, onDelete }) => {
 		}
 	}
 
-	function onSave() {
+	const onSave = () => {
+		// add new colors to existing colors		
 		console.log('saving edits')
 		editPalette(palette.id, colors)
 		toggleEdit()		
@@ -34,15 +45,16 @@ const Palette = ({ palette, onDelete }) => {
 		<div className='palette'>
 			<div className='palette-header'>
 				<h3>
-					{palette.name} 
-					{editMode ? 
-						<FaTimes style={{ color: 'steelblue' }} onClick={toggleEdit} /> : 
-						<FaPen style={{ color: 'steelblue'}} onClick={toggleEdit} />
+					{palette.name} 			
+					
+					{editMode ?						
+						<div>Delete <FaTimes style={{ color: 'red'}} onClick={() => {
+							onDelete(palette.id)
+							toggleEdit()
+						}} /></div>
+						:
+						<div>Edit <FaPen style={{ color: 'steelblue'}} onClick={toggleEdit} /></div>						
 					}
-					{editMode && <FaTimes style={{ color: 'red'}} onClick={() => {
-						onDelete(palette.id)
-						toggleEdit()
-					}} />}
 				</h3>
 			</div>
 			
@@ -53,7 +65,13 @@ const Palette = ({ palette, onDelete }) => {
 				))}
 			</div>	
 
-			{editMode && <AddPalette curName={palette.name} onAdd={onSave} />}
+			{editMode && 
+				<div>					
+					<ChromePicker color={currentColor} onChange={handleChange} />
+					<Button text={'Add'} onClick={addColor} />
+					<Button text={'Save'} onClick={onSave} />
+				</div>
+			}
 
 			<Button text={showHex ? 'Hide' : 'Show hex values'} onClick={() => setShowHex(!showHex)} />			
 		</div>

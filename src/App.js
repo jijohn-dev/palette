@@ -33,7 +33,6 @@ function Dashboard() {
     setShowAddPalette(false)
   }
 
-
 	// Delete palette
 	const deletePalette = async(id) => {
 		console.log(id)
