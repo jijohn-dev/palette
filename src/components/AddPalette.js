@@ -8,7 +8,8 @@ const AddPalette = ({ curName, onAdd }) => {
 	const [currentColor, setCurrentColor] = useState('')
 	const [colors, setColors] = useState([])
 
-	const handleChange = (color) => {		
+	const handleChange = (color) => {	
+		document.body.style = `background: ${currentColor.hex}`	
 		setCurrentColor(color)
 	}
 
