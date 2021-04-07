@@ -42,9 +42,9 @@ function Dashboard() {
   return (
     <div>
       <Header showAdd={showAddPalette} onAdd={() => setShowAddPalette(!showAddPalette)} />
-      {showAddPalette && <AddPalette onAdd={handleAdd} />}
-      <Palettes palettes={palettes} onDelete={deletePalette} /> 
       <SignOut />
+      {showAddPalette && <AddPalette onAdd={handleAdd} />}
+      <Palettes palettes={palettes} onDelete={deletePalette} />       
     </div>
   )
 }

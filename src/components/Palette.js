@@ -73,7 +73,7 @@ const Palette = ({ palette, onDelete }) => {
 				</div>
 			}
 
-			<Button text={showHex ? 'Hide' : 'Show hex values'} onClick={() => setShowHex(!showHex)} />			
+			<Button text={showHex ? 'Hide' : 'Show Hex'} onClick={() => setShowHex(!showHex)} />			
 		</div>
 	)
 }
